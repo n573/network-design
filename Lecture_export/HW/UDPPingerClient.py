@@ -3,15 +3,26 @@ from time import sleep
 import socket
 
 
+# Global Variables
+s: socket = socket
+# s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+host = None
+port = None
+ptime: int = 0
+RTT: float = 0.0
+
+
 # Socket create
 def socket_create():
     global host
     global port
     global s
 
-    host = "127.0.0.1"
+    # host = "127.0.0.1"
+    host = "192.168.0.10"
     port = 12000
-    timeout = 1  # in seconds
+    # timeout = 1  # in seconds
+    timeout = 0.1  # in seconds -- for testing
 
     try:
         # Create UDP socket
@@ -30,6 +41,7 @@ def ping_client():
     global port
     global s
     global ptime
+    global RTT
 
     # Sequence number of the ping message
     ptime = 0
@@ -56,14 +68,15 @@ def ping_client():
             RTTa = time.time()
 
             # Compute RTT
-            # todo...
+            RTT += RTTa - RTTb
 
             # Display packet time
-            # todo...
+            # print("packet time: %f", RTT * ptime)
+            print("packet time: %f", RTT)
 
             sleep(1)
 
-        except:
+        except socket.error or socket.timeout > s.timeout:
             # Server does not response
             # Assume the packet is lost
             print("Request timed out.")
@@ -71,19 +84,24 @@ def ping_client():
             continue
 
     # Close socket
-    # todo...
+    s.close()
 
 
 # Run ping statistics
 def ping_statistics():
     # Global variables
-    # todo...
+    global RTT
+    global ptime
+    global s
+    global host
+    global port
 
     print("")
     print("--- IP ping statistics ---")
 
     # Print statistics
-    # todo...
+    print("Reply from %s:%s: bytes=%d time < %d s TTL=%d" % (host, port, socket.socket.__sizeof__(s), RTT, ptime))
+    # print("Reply from %s:%s: bytes=%d time < %d s TTL=%d" % (host, port, bytes.decode(s, '%s'), RTT, ptime))
 
 
 # **************************************
