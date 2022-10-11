@@ -1,0 +1,34 @@
+filter udp (and possibly icmp)
+
+//payload = 29 bytes, Length = 37, total length of IPv4 = 57, IPv4 header = 20
+
+//ipv4 load = 57-20 = 37 = Length
+//Length - payload = 8 bytes = UDP header size
+
+//if u click on User Datagram Protocol, it says the header is 8 bytes
+
+
+
+1. 4 Fields: source, destination, length, checksum
+
+2. 
+
+payload = 29 bytes, Length = 37, total length of IPv4 = 57, IPv4 header = 20
+
+ipv4 load = 57-20 = 37 = Length
+Length - payload = 8 bytes = UDP header size
+
+if u click on User Datagram Protocol, it says the header is 8 bytes
+
+3. 
+
+Value in length field = 37 = the IPv4 packet (total size minus the header)
+ipv4 load = 57-20 = 37 = Length
+
+4. 
+
+5. 
+
+6. UDP protocol number is 17 in decimal and 11 in hexadecimal
+
+7. The port numbers in the two packets are the same
