@@ -2,29 +2,16 @@ import sys, time
 from time import sleep
 import socket
 
-# Globals:
-s = None
-host = None
-port = None
-ptime = 0
-
-
-def test_socket_timeout(s):
-    s.settimeout(1)
-
 
 # Socket create
-def socket_create():  # 1st
-    # host = "127.0.0.1" # localhost
+def socket_create():
     global host
     global port
     global s
-    global ptime
 
-    host = "192.168.0.10"
+    host = "127.0.0.1"
     port = 12000
     timeout = 1  # in seconds
-    ptime = 0
 
     try:
         # Create UDP socket
@@ -32,7 +19,6 @@ def socket_create():  # 1st
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         # Set socket timeout as 1 second - <socket_name>.settimeout(timeout)
         s.settimeout(timeout)
-
     except socket.error as msg:
         print("Socket creation error: " + str(msg))
 
@@ -46,12 +32,12 @@ def ping_client():
     global ptime
 
     # Sequence number of the ping message
+    ptime = 0
 
     # Ping for 10 times
     while ptime < 10:
         ptime += 1
         # Format the message to be sent
-        # todo...
         message = input("Message: ")
 
         try:
@@ -85,7 +71,7 @@ def ping_client():
             continue
 
     # Close socket
-    s.close()
+    # todo...
 
 
 # Run ping statistics
@@ -101,7 +87,7 @@ def ping_statistics():
 
 
 # **************************************
-if __name__ == "__main__":  # main function
+if __name__ == "__main__":
     socket_create()
     ping_client()
     ping_statistics()
