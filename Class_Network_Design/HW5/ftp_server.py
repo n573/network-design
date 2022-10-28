@@ -51,34 +51,41 @@ def tcp_server():
             connectionSocket, addr = s.accept()
             print("Connected to Client -> IP: " + addr[0] + " | Port: " + str(addr[1]))
 
-            # Receive file name
-            file_name = connectionSocket.recv(1024)
-
-            try:
-                # Open file
-                f = open(file_name, "rb")
-
-                # Send file to client
-                connectionSocket.send(f.read())
-                connectionSocket.shutdown(socket.SHUT_WR)
-
-                # Close file
-                f.close()
-            except FileNotFoundError as e:
-                print(str(e))
-
             # Close connection
             print("Socket closed.")
             connectionSocket.close()
 
             print("**********************************")
             print("Waiting for client...")
-            
+
         except socket.error as e:
             print(str(e))
             break
+        except KeyboardInterrupt:
+            break
 
-#**************************************
+
+def fileStuff():
+    # Receive file name
+    file_name = s.recv(1024)
+
+    try:
+        # Open file
+        f = open(file_name, "rb")
+
+        # Send file to client
+        s.send(f.read())
+        s.shutdown(socket.SHUT_WR)
+
+        # Close file
+        f.close()
+    except FileNotFoundError as e:
+        print(str(e))
+    except KeyboardInterrupt:
+        pass
+
+
+# **************************************
 if __name__ == "__main__":
     global s
 
@@ -88,6 +95,9 @@ if __name__ == "__main__":
         tcp_server()
     except mySocketError as msg:
         print(msg)
+    except KeyboardInterrupt:
+        pass
+        # exit(2);
 
     # Close main server socket
     s.close()
