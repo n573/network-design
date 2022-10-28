@@ -6,6 +6,7 @@ class mySocketError(Exception):
 
     # TCP Client
 
+
 def shell():
     while True:
 
@@ -13,14 +14,26 @@ def shell():
         if msg == 'quit':
             break
 
-        elif msg == 'RETR':
+        elif msg == 'RETR' or 'retr':
             myftp.cmd_retr()
+
+        elif msg == 'upload':
+            myftp.upload()
 
         elif msg == 'connect':
             myftp.connectServer()
 
+        elif msg == 'help' or '?':
+            helpMenu()
+
         else:
             print("Command not valid.")
+
+
+def helpMenu():
+    cmds = ['quit', 'retr', 'upload', 'connect (WIP)', 'help (?): displays this message']
+    for i in cmds:
+        print(i)
 
 def tcp_Client():
     global host
@@ -47,4 +60,3 @@ def tcp_Client():
 # **************************************
 if __name__ == "__main__":
     tcp_Client()
-

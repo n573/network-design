@@ -1,5 +1,6 @@
 import socket
-
+import osLib as serv
+import my_ftpLib as myftp
 
 class mySocketError(Exception):
     pass
@@ -35,6 +36,29 @@ def socket_bind():
         raise mySocketError("Socket binding error...")
 
 
+# Server Commands
+# def os_cmd(cmd):
+#     global s
+#
+#     s.recv(1024)
+
+def recieveCmd():
+    global s
+
+    cmd = s.recv(1024)
+    if cmd == 'quit':
+        pass
+
+    elif cmd == 'pwd':  # pwd command shows current directory
+        serv.getCurrentDirectory()
+
+    elif cmd == 'dir':  # dir shows the directory list/tree
+        serv.listFiles()
+
+    else:
+        print("Command not valid.")
+
+
 # TCP Server
 def tcp_server():
     global host
@@ -51,6 +75,11 @@ def tcp_server():
             connectionSocket, addr = s.accept()
             print("Connected to Client -> IP: " + addr[0] + " | Port: " + str(addr[1]))
 
+            print("enter command: ")
+            cmdin = s.recv(1024)
+            if cmdin == 'upload':
+                myftp.fileSendServ()
+
             # Close connection
             print("Socket closed.")
             connectionSocket.close()
@@ -65,24 +94,24 @@ def tcp_server():
             break
 
 
-def fileStuff():
-    # Receive file name
-    file_name = s.recv(1024)
-
-    try:
-        # Open file
-        f = open(file_name, "rb")
-
-        # Send file to client
-        s.send(f.read())
-        s.shutdown(socket.SHUT_WR)
-
-        # Close file
-        f.close()
-    except FileNotFoundError as e:
-        print(str(e))
-    except KeyboardInterrupt:
-        pass
+# def fileStuff():
+#     # Receive file name
+#     file_name = s.recv(1024)
+#
+#     try:
+#         # Open file
+#         f = open(file_name, "rb")
+#
+#         # Send file to client
+#         s.send(f.read())
+#         s.shutdown(socket.SHUT_WR)
+#
+#         # Close file
+#         f.close()
+#     except FileNotFoundError as e:
+#         print(str(e))
+#     except KeyboardInterrupt:
+#         pass
 
 
 # **************************************
@@ -93,8 +122,8 @@ if __name__ == "__main__":
         socket_create()
         socket_bind()
         tcp_server()
-    except mySocketError as msg:
-        print(msg)
+    except mySocketError as cmd:
+        print(cmd)
     except KeyboardInterrupt:
         pass
         # exit(2);

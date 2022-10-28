@@ -51,7 +51,8 @@ def connectServer():
 
     socket_create()
     socket_connect()
-
+    cmd = input("command to send to server?  ")
+    s.send(cmd)
 
 
 def cmd_retr():
@@ -91,3 +92,59 @@ def cmd_retr():
     except mySocketError as e:
         print(str(e))
 
+def upload():
+    try:
+        # Create socket and connect to server
+        socket_create()
+        socket_connect()
+
+        print("Connected to Server.")
+
+        file_name = input("File name> ")
+        s.send(file_name.encode('utf-8'))
+        print("name sent, awaiting response")
+
+        # Open new file
+        f = open(file_name + "_download", "wb")
+
+        # Receive file
+        recv_file = s.recv(1024)
+        while recv_file:
+            f.write(recv_file)
+            recv_file = s.recv(1024)
+
+        print("File received.")
+        f.close()
+        print("File saved.")
+
+        # Close socket
+        s.close()
+        print("Socket closed.")
+        print("**********************************")
+
+    except socket.error as e:
+        print(str(e))
+    except mySocketError as e:
+        print(str(e))
+
+
+def fileSendServ():
+    global s
+
+    # Receive file name
+    file_name = s.recv(1024)
+
+    try:
+        # Open file
+        f = open(file_name, "rb")
+
+        # Send file to client
+        s.send(f.read())
+        s.shutdown(socket.SHUT_WR)
+
+        # Close file
+        f.close()
+    except FileNotFoundError as e:
+        print(str(e))
+    except KeyboardInterrupt:
+        pass
