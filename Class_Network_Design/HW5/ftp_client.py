@@ -9,7 +9,6 @@ class mySocketError(Exception):
 
 def shell():
     while True:
-
         msg = input('myturtle> ')
         if msg == 'quit':
             break
@@ -17,13 +16,10 @@ def shell():
             myftp.cmd_retr()
         elif msg == 'upload':
             myftp.upload()
-
-        elif msg == 'connect':
-            myftp.connectServer()
-
+        # elif msg == 'connect':
+        #     myftp.connectServer()
         elif msg == 'help' or '?':
             helpMenu()
-
         else:
             print("Command not valid.")
 

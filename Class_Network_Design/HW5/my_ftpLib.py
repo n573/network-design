@@ -6,7 +6,8 @@ class mySocketError(Exception):
 
 def getFile(ftp, filename):
     try:
-        ftp.retrbinary("RETR " + filename, open(filename, 'wb').write)
+        # ftp.retrbinary("RETR " + filename, open(filename, 'wb').write)
+        ...
     except Exception as e:
         print(str(e))
 
@@ -41,18 +42,18 @@ def socket_connect():
         print(str(msg))
         raise mySocketError("Socket connection error...")
 
-def connectServer():
-    global host
-    global port
-    global s
-
-    host = input("Enter host IP address (ex: 127.0.0.1): ")
-    port = input("Enter target port on " + host + ": ")
-
-    socket_create()
-    socket_connect()
-    cmd = input("command to send to server?  ")
-    s.send(cmd)
+# def connectServer():
+#     global host
+#     global port
+#     global s
+#
+#     host = input("Enter host IP address (ex: 127.0.0.1): ")
+#     port = input("Enter target port on " + host + ": ")
+#
+#     socket_create()
+#     socket_connect()
+#     cmd = input("command to send to server?  ")
+#     s.send(cmd)
 
 
 def cmd_retr():
@@ -101,17 +102,26 @@ def upload():
         print("Connected to Server.")
 
         file_name = input("File name> ")
-        s.send(file_name.encode('utf-8'))
-        print("name sent, awaiting response")
+        f = open(file_name, "rb")
+
+        # snd_file = f.read(bytes)
+        # while snd_file:
+        #     # f.write(recv_file)
+        #     s.send(snd_file)
+
+        s.send(f.read())
+
+        # s.send(file_name.encode('utf-8'))
+        # print("name sent, awaiting response")
 
         # Open new file
-        f = open(file_name + "_download", "wb")
+        # f = open(file_name + "_download", "wb")
 
         # Receive file
-        recv_file = s.recv(1024)
-        while recv_file:
-            f.write(recv_file)
-            recv_file = s.recv(1024)
+        # recv_file = s.recv(1024)
+        # while recv_file:
+        #     f.write(recv_file)
+        #     recv_file = s.recv(1024)
 
         print("File received.")
         f.close()
