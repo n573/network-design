@@ -4,12 +4,12 @@ import socket
 class mySocketError(Exception):
     pass
 
-def getFile(ftp, filename):
-    try:
-        # ftp.retrbinary("RETR " + filename, open(filename, 'wb').write)
-        ...
-    except Exception as e:
-        print(str(e))
+# def getFile(ftp, filename):
+#     try:
+#         # ftp.retrbinary("RETR " + filename, open(filename, 'wb').write)
+#         ...
+#     except Exception as e:
+#         print(str(e))
 
 # Create Socket
 def socket_create():
@@ -101,7 +101,7 @@ def upload():
 
         print("Connected to Server.")
 
-        file_name = input("File name> ")
+        file_name = input("File to upload> ")
         f = open(file_name, "rb")
 
         # snd_file = f.read(bytes)
@@ -109,7 +109,7 @@ def upload():
         #     # f.write(recv_file)
         #     s.send(snd_file)
 
-        s.send(f.read())
+        s.send(f.read())  # sends file to server
 
         # s.send(file_name.encode('utf-8'))
         # print("name sent, awaiting response")
