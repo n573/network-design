@@ -13,10 +13,8 @@ def shell():
         msg = input('myturtle> ')
         if msg == 'quit':
             break
-
         elif msg == 'RETR' or 'retr':
             myftp.cmd_retr()
-
         elif msg == 'upload':
             myftp.upload()
 

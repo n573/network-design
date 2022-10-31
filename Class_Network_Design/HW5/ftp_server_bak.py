@@ -12,7 +12,7 @@ def socket_create():
     global port
     global s
 
-    host = '127.0.0.1'
+    host = ''
     port = 12500
 
     try:
