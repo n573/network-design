@@ -5,7 +5,7 @@ class mySocketError(Exception):
 
 # For sockets:
 
-# Create Client-side Socket
+# Create Socket
 def socket_create():
     global host
     global port
@@ -15,9 +15,8 @@ def socket_create():
     port = 12500
 
     try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # stream indicates TCP connection
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        print("socket created")  # for testing
     except socket.error as msg:
         print(str(msg))
         raise mySocketError("Socket creation error...")
@@ -32,40 +31,18 @@ def socket_connect():
     try:
         s.connect((host, port))
         print("Connected to Server -> IP: " + host + " | Port: " + str(port))
-        send_cmd()  # opens server shell
+
     except socket.error as msg:
         print(str(msg))
         raise mySocketError("Socket connection error...")
 
-
-def send_cmd():  # sends a command to the server (server shell)
-    while True: 
-        cmd = input("turtle server> ")
-        if cmd == "quit": 
-            print("disconnecting from server")
-            s.close()  # closes client socket
-            break
-        elif cmd == "download":
-            s.send("retr".encode('utf-8'))  # sends server which command to expect
-            cmd_retr()  # client-side portion of retrieve
-            # s.send("retr".encode('utf-8'))  # sends server which command to expect
-        elif cmd == "upload":
-            ...
-        elif cmd == "help":
-            print("quit, download, upload, help")
-        elif cmd == "close":  # ideally only admins, stops server
-            s.send("close".encode('utf-8'))
-        else:
-            print("command not valid")
-
-
 def cmd_retr():
     try:
         # Create socket and connect to server
-        # socket_create()
-        # socket_connect()
+        socket_create()
+        socket_connect()
 
-        # print("Connected to Server.")
+        print("Connected to Server.")
 
         file_name = input("File name> ")
 
@@ -96,7 +73,6 @@ def cmd_retr():
     except mySocketError as e:
         print(str(e))
 
-
 def cmd_send():  # from client -> server
     try:
         # Create socket and connect to server
@@ -107,7 +83,7 @@ def cmd_send():  # from client -> server
 
         file_name = input("File to send> ")
 
-        s.send(file_name.encode('utf-8'))  # tells server what the original filename is
+        s.send(file_name.encode("utf-8")) # tells server what the original filename is
 
         f = open(file_name, "rb")
 
@@ -130,21 +106,17 @@ def cmd_send():  # from client -> server
     except mySocketError as e:
         print(str(e))
 
+def clientReq(): # client request to server (for example, which command the server should execute)
+    global host
+    global port
+    global s
 
-def login(user, passwd):
-    ...
-
-# def clientReq(): # client request to server (for example, which command the server should execute)
-#     global host
-#     global port
-#     global s
-#
-#     socket_create()
-#     socket_connect()
-#     msg = input("what do you need from the server?\nturtle> ")
-#     s.send(msg.encode('utf-8'))
-#     print("sent \'" + msg + "\' to the server")
-#     # s.close()  # CHECK THIS FIRST IF THINGS DONT WORK
+    socket_create()
+    socket_connect()
+    msg = input("what do you need from the server?\nturtle> ")
+    s.send(msg.encode("utf-8"))
+    print("sent \'" + msg + "\' to the server")
+    # s.close()  # CHECK THIS FIRST IF THINGS DONT WORK
 
 
 # def getFile(ftp, filename):
