@@ -55,7 +55,7 @@ def socket_bind():
 
 
 # def retr_file(consok, address):
-def retr_file(consok):
+def retr_file(consok):  # send to client
     # Receive filename
     file_name = consok.recv(1024)
 
@@ -64,7 +64,9 @@ def retr_file(consok):
 
         # Send file to client
         consok.send(f.read())
-        consok.shutdown(socket.SHUT_RD)  # stops the read stream
+
+        # consok.send(f.read())
+        consok.shutdown(socket.SHUT_WR)  # stops the read stream
         # consok.sendto(f.read(), address)
 
         f.close()
@@ -115,6 +117,7 @@ def tcp_server():
                 # cmdIn = connectionSocket.recv(1024).decode('utf-8')
 
                 while True:
+                    # connectionSocket, addr = s.accept()
                     cmdIn = connectionSocket.recv(1024).decode('utf-8')
                     if cmdIn == "retr":
                         # retr_file(connectionSocket, addr)
@@ -132,7 +135,12 @@ def tcp_server():
                     else:
                         # print("client input invalid command")
                         # connectionSocket.sendmsg("invalid command")
-                        break
+                        # break
+                        # print("triggered else in loop")  # for debug
+                        ...
+            # except KeyboardInterrupt as kint:
+            #     print("keyboard interrupt")
+            #     pass
 
                 # -------------------------------
 
@@ -155,6 +163,7 @@ def tcp_server():
 
 # Main Function
 if __name__ == "__main__":
+    global s
 
     try:
         # created socket
@@ -166,3 +175,5 @@ if __name__ == "__main__":
 
     except mySocketError as msg:
         print(msg)
+    s.close()
+

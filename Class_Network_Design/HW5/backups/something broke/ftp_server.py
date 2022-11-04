@@ -64,8 +64,6 @@ def retr_file(consok):  # send to client
 
         # Send file to client
         consok.send(f.read())
-
-        # consok.send(f.read())
         consok.shutdown(socket.SHUT_WR)  # stops the read stream
         # consok.sendto(f.read(), address)
 
@@ -117,7 +115,6 @@ def tcp_server():
                 # cmdIn = connectionSocket.recv(1024).decode('utf-8')
 
                 while True:
-                    # connectionSocket, addr = s.accept()
                     cmdIn = connectionSocket.recv(1024).decode('utf-8')
                     if cmdIn == "retr":
                         # retr_file(connectionSocket, addr)
@@ -145,7 +142,7 @@ def tcp_server():
                 # -------------------------------
 
                 # Close connection
-                # connectionSocket.close()
+                connectionSocket.close()
 
                 # can print "waiting for client" if repeated
 

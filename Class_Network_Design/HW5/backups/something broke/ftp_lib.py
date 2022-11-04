@@ -122,13 +122,13 @@ def cmd_send():  # send file from client -> server
         # Send file
         print("File " + file_name + " sending... Waiting for completion...")
         s.send(f.read())
-        s.shutdown(socket.SHUT_WR)  # !!not sure if this is good, check later
+        # s.shutdown(socket.SHUT_WR)  # !!not sure if this is good, check later
 
         print("File sent.")
         f.close()
         # print("File save confirmed.") # get ACK from server that it received the file
         print("File send completed.")
-
+        # s.setsockopt(socket.SO_KEEPALIVE)
         # Close socket
         # s.close()
         # print("Socket closed.")
