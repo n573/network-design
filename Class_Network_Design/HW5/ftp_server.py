@@ -1,4 +1,5 @@
 import socket
+import socketserver
 import string
 import os
 # Global Variables
@@ -66,14 +67,14 @@ def retr_file(consok):  # send to client
         consok.send(f.read())
 
         consok.shutdown(socket.SHUT_WR)  # stops the read stream
-        # consok.sendto(f.read(), address)
+
 
         f.close()
 
     except FileNotFoundError as e:
         print(str(e))
 
-def getSentFile(consok):
+def getSentFile(consok):  # get file from client
     # Receive filename
     file_name = consok.recv(1024)
     file_name = bytes.decode(file_name, 'utf-8')
@@ -136,10 +137,12 @@ def tcp_server():
                         retr_file(connectionSocket)
                         # file_name = connectionSocket.recv(1024)  # gets filename from client
                         print("file sent to client")
+                        connectionSocket, addr = s.accept()  # NEW IDEA -- works here
                         # retr_file(connectionSocket, file_name)  # sends file to client
                     elif cmdIn == "getF":
                         getSentFile(connectionSocket)
                         print("file received from client")
+                        connectionSocket, addr = s.accept()  # NEW IDEA -- UNTESTED
                     elif cmdIn == "close":
                         print("connection to " + addr[0] + " closing")
                         connectionSocket.close()
@@ -147,6 +150,7 @@ def tcp_server():
                     elif cmdIn == "dir":  # does NOT work
                         ls = listFiles()
                         # needs to send ls to client but won't allow it for some reason
+                        #####
                     else:
                         # print("client input invalid command")
                         # connectionSocket.sendmsg("invalid command")
