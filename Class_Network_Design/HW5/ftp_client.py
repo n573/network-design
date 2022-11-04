@@ -1,3 +1,4 @@
+import os
 import socket
 import ftp_lib as ftp
 
@@ -79,13 +80,32 @@ def tcp_client():
             ftp.socket_create()
             ftp.socket_connect()
             connFlag = True
+        elif msg == "list":
+            if connFlag == True:
+                ftp.ls()
+            elif connFlag == False:
+                listFiles()  # clientside works
         elif msg == "close":
             ftp.s.close()
             connFlag = False
+        elif msg == "help" and connFlag == True:
+            print("since you're connected to a server...")
+            # planned to send server a cmd code to display but that seemed overcomplicated
+            print("download, send, close, list, --- login (WIP)")
+        elif msg == "help" and connFlag == False:
+            print("clientside commands are:\nconnect, help, quit")
         else:
             print("Command not valid")
 
 
+def listFiles():
+    # Get current directory
+    path = os.getcwd()
+    # List all files in current directory
+    with os.scandir(path) as entries:
+        for entry in entries:
+            if entry.is_file():
+                print(entry.name)
 
 
 # Main Function

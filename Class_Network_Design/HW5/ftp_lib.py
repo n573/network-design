@@ -143,6 +143,10 @@ def cmd_send():  # send file from client -> server
 def login(user, passwd):
     ...
 
+
+def ls():
+    s.send("dir".encode('utf-8'))
+
 # def clientReq(): # client request to server (for example, which command the server should execute)
 #     global host
 #     global port
