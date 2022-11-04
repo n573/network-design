@@ -137,7 +137,7 @@ def tcp_server():
                 # -------------------------------
 
                 # Close connection
-                connectionSocket.close()
+                # connectionSocket.close()
 
                 # can print "waiting for client" if repeated
 

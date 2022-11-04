@@ -57,17 +57,29 @@ def tcp_client():
     global host
     global port
     global s
-
+    connFlag = False
     while True:
-        msg = input("turtle> ")
+        if connFlag == False:
+            msg = input("turtle> ")
+        elif connFlag == True:
+            msg = input("turtle_server> ")
+        else:
+            print("something went wrong")
 
         if msg == "quit":
+            ftp.s.close()
             break
-        # elif msg == "RETR":
-            # ftp.cmd_retr()
+        elif msg == "download":  #  & connFlag:
+            ftp.cmd_retr()
+        elif msg == "send":
+            ftp.cmd_send()
         elif msg == "connect":
             ftp.socket_create()
             ftp.socket_connect()
+            connFlag = True
+        elif msg == "close":
+            ftp.s.close()
+            connFlag = False
         else:
             print("Command not valid")
 
