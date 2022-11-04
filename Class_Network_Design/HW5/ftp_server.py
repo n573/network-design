@@ -123,14 +123,17 @@ def tcp_server():
                 connectionSocket, addr = s.accept()
                 print("Client ip: " + addr[0] + " | port: " + str(addr[1]))
 
-                # Protocol...
-                # print("working... missing protocol")
+                user = connectionSocket.recv(1024).decode('utf-8')
+                passwd = connectionSocket.recv(1024).decode('utf-8')
+                print("received user: {} | password: {}".format(user, passwd))
+
+                if user != "user" and passwd != "pass123":
+                    connectionSocket.close()
 
                 print("awaiting command...")
-                # cmdIn = connectionSocket.recv(1024).decode('utf-8')
-
                 while True:
                     # connectionSocket, addr = s.accept()
+
                     cmdIn = connectionSocket.recv(1024).decode('utf-8')
                     if cmdIn == "retr":
                         # retr_file(connectionSocket, addr)
@@ -142,7 +145,7 @@ def tcp_server():
                     elif cmdIn == "getF":
                         getSentFile(connectionSocket)
                         print("file received from client")
-                        connectionSocket, addr = s.accept()  # NEW IDEA -- UNTESTED
+                        connectionSocket, addr = s.accept()  # unsure about this
                     elif cmdIn == "close":
                         print("connection to " + addr[0] + " closing")
                         connectionSocket.close()
