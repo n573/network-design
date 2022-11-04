@@ -58,6 +58,7 @@ def tcp_client():
     global port
     global s
     connFlag = False
+
     while True:
         if connFlag == False:
             msg = input("turtle> ")
@@ -67,7 +68,8 @@ def tcp_client():
             print("something went wrong")
 
         if msg == "quit":
-            ftp.s.close()
+            if connFlag == True:
+               ftp.s.close()
             break
         elif msg == "download":  #  & connFlag:
             ftp.cmd_retr()
@@ -95,7 +97,7 @@ if __name__ == "__main__":
 
     except mySocketError as msg:
         print(msg)
-    except KeyboardInterrupt as interr:
-        print("keyboard interrupt")
-        raise mySocketError(interr)
+    # except KeyboardInterrupt as interr:
+    #     print("keyboard interrupt")
+    #     raise mySocketError(interr)
 
