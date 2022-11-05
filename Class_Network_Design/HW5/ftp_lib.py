@@ -137,7 +137,6 @@ def cmd_send():  # send file from client -> server
         f.close()
         # print("File save confirmed.") # get ACK from server that it received the file
         print("File send completed.")
-
         # Close socket
         s.close()
         print("Socket closed.")

@@ -68,7 +68,6 @@ def retr_file(consok):  # send to client
 
         consok.shutdown(socket.SHUT_WR)  # stops the read stream
 
-
         f.close()
 
     except FileNotFoundError as e:
@@ -140,12 +139,12 @@ def tcp_server():
                         retr_file(connectionSocket)
                         # file_name = connectionSocket.recv(1024)  # gets filename from client
                         print("file sent to client")
-                        connectionSocket, addr = s.accept()  # NEW IDEA -- works here
+                        # connectionSocket, addr = s.accept()  # NEW IDEA -- works here
                         # retr_file(connectionSocket, file_name)  # sends file to client
                     elif cmdIn == "getF":
                         getSentFile(connectionSocket)
                         print("file received from client")
-                        connectionSocket, addr = s.accept()  # unsure about this
+                        # connectionSocket, addr = s.accept()  # unsure about this
                     elif cmdIn == "close":
                         print("connection to " + addr[0] + " closing")
                         connectionSocket.close()
@@ -167,9 +166,11 @@ def tcp_server():
                 # -------------------------------
 
                 # Close connection
-                # connectionSocket.close()
+                connectionSocket.close()
 
                 # can print "waiting for client" if repeated
+                print("waiting for client request")
+                connectionSocket, addr = s.accept()
 
             except socket.error as e:
                 print(str(e))
