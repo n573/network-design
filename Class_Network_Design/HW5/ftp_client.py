@@ -79,26 +79,46 @@ def tcp_client():
             myftp.cmd_retr()
         elif msg == "send":
             myftp.cmd_send()
-        elif msg == "connect":
-            myftp.socket_create()
-            myftp.socket_connect()
-            connFlag = True
-        elif msg == "list":
-            if connFlag == True:
-                myftp.ls()
-            elif connFlag == False:
-                listFiles()  # clientside works
-        elif msg == "close":
-            myftp.s.close()
-            connFlag = False
-        elif msg == "help" and connFlag == True:
-            print("since you're connected to a server...")
-            # planned to send server a cmd code to display but that seemed overcomplicated
-            print("download, send, close, list, --- login (WIP)")
-        elif msg == "help" and connFlag == False:
-            print("clientside commands are:\nconnect, help, quit")
-        else:
-            print("Command not valid")
+        elif msg == "help":
+            print("help: quit, login download, send")
+
+
+    # while True:
+    #     if connFlag == False:
+    #         msg = input("turtle> ")
+    #     elif connFlag == True:
+    #         msg = input("turtle_server> ")
+    #     else:
+    #         print("something went wrong")
+    #
+    #     if msg == "quit":
+    #         if connFlag == True:
+    #            ftp.s.close()
+    #         break
+    #     elif msg == "download":  #  & connFlag:
+    #         ftp.cmd_retr()
+    #     elif msg == "send":
+    #         ftp.cmd_send()
+    #     elif msg == "connect":
+    #         ftp.socket_create()
+    #         ftp.socket_connect()
+    #         connFlag = True
+    #     elif msg == "list":
+    #         if connFlag == True:
+    #             ftp.ls()
+    #         elif connFlag == False:
+    #             listFiles()  # clientside works
+    #     elif msg == "close":
+    #         ftp.s.close()
+    #         connFlag = False
+    #     elif msg == "help" and connFlag == True:
+    #         print("since you're connected to a server...")
+    #         # planned to send server a cmd code to display but that seemed overcomplicated
+    #         print("download, send, close, list, --- login (WIP)")
+    #     elif msg == "help" and connFlag == False:
+    #         print("clientside commands are:\nconnect, help, quit")
+    #     else:
+    #         print("Command not valid")
 
 
 def listFiles():
