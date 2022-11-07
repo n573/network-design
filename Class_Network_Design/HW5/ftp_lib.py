@@ -39,7 +39,7 @@ def socket_connect():
         print("Connected to Server -> IP: " + host + " | Port: " + str(port))
         usr = input("Username: ")
         passwd = input("Password: ")
-        login(usr, passwd)
+        login(usr, passwd)  # default credentials are 'user' and 'pass123'
         # s.connect(socket.SO_PASSCRED)
 
         # send_cmd()  # opens server shell
@@ -48,27 +48,27 @@ def socket_connect():
         raise mySocketError("Socket connection error...")
 
 
-# def send_cmd():  # sends a command to the server (server shell)
-#     # CURRENTLY DISABLED
-#     while True:
-#         cmd = input("turtle server> ")
-#         if cmd == "quit":
-#             print("disconnecting from server")
-#             s.close()  # closes client socket
-#             break
-#         elif cmd == "download":
-#             s.send("retr".encode('utf-8'))  # sends server which command to expect
-#             cmd_retr()  # client-side portion of retrieve
-#             # s.send("retr".encode('utf-8'))  # sends server which command to expect
-#         elif cmd == "upload":
-#             ...
-#         elif cmd == "help":
-#             print("quit, download, upload, help")
-#         elif cmd == "close":  # ideally only admins, stops server
-#             s.send("close".encode('utf-8'))
-#             break
-#         else:
-#             print("command not valid")
+def send_cmd():  # sends a command to the server (server shell)
+    # CURRENTLY DISABLED
+    while True: 
+        cmd = input("turtle server> ")
+        if cmd == "quit": 
+            print("disconnecting from server")
+            s.close()  # closes client socket
+            break
+        elif cmd == "download":
+            s.send("retr".encode('utf-8'))  # sends server which command to expect
+            cmd_retr()  # client-side portion of retrieve
+            # s.send("retr".encode('utf-8'))  # sends server which command to expect
+        elif cmd == "upload":
+            ...
+        elif cmd == "help":
+            print("quit, download, upload, help")
+        elif cmd == "close":  # ideally only admins, stops server
+            s.send("close".encode('utf-8'))
+            break
+        else:
+            print("command not valid")
 
 
 def cmd_retr():
@@ -79,7 +79,7 @@ def cmd_retr():
         # Create socket and connect to server
         # socket_create()
         # socket_connect()
-        s.connect((host, port))
+
         # print("Connected to Server.")
         s.send("retr".encode('utf-8'))  # tells server what cmd to expect
 
@@ -103,9 +103,9 @@ def cmd_retr():
         print("File saved.")
 
         # Close socket
-        s.close()
-        print("Socket closed.")
-        print("**********************************")
+        # s.close()
+        # print("Socket closed.")
+        # print("**********************************")
 
     except socket.error as e:
         print(str(e))
@@ -131,16 +131,17 @@ def cmd_send():  # send file from client -> server
         # Send file
         print("File " + file_name + " sending... Waiting for completion...")
         s.send(f.read())
-        # s.shutdown(socket.SHUT_WR)  # !!not sure if this is good, check later
-
+#        s.shutdown(socket.SHUT_WR)  # !!not sure if this is good, check later
+        s.shutdown(1)  # This tells the server “This client is done sending, but can still receive.”
         print("File sent.")
         f.close()
         # print("File save confirmed.") # get ACK from server that it received the file
         print("File send completed.")
+
         # Close socket
-        s.close()
-        print("Socket closed.")
-        print("**********************************")
+        # s.close()
+        # print("Socket closed.")
+        # print("**********************************")
 
     except socket.error as e:
         print(str(e))

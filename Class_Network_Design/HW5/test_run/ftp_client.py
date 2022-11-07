@@ -1,6 +1,6 @@
 import os
 import socket
-import ftp_lib as ftp
+import ftp_lib as myftp
 
 # Global Variables
 s = None
@@ -70,23 +70,26 @@ def tcp_client():
 
         if msg == "quit":
             if connFlag == True:
-               ftp.s.close()
+               myftp.s.close()
             break
-        elif msg == "download":  #  & connFlag:
-            ftp.cmd_retr()
+        elif msg == "login":
+            myftp.socket_create()
+            myftp.socket_connect()  # contains login prompt
+        elif msg == "download":
+            myftp.cmd_retr()
         elif msg == "send":
-            ftp.cmd_send()
+            myftp.cmd_send()
         elif msg == "connect":
-            ftp.socket_create()
-            ftp.socket_connect()
+            myftp.socket_create()
+            myftp.socket_connect()
             connFlag = True
         elif msg == "list":
             if connFlag == True:
-                ftp.ls()
+                myftp.ls()
             elif connFlag == False:
                 listFiles()  # clientside works
         elif msg == "close":
-            ftp.s.close()
+            myftp.s.close()
             connFlag = False
         elif msg == "help" and connFlag == True:
             print("since you're connected to a server...")

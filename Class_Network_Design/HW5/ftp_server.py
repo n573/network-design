@@ -68,6 +68,7 @@ def retr_file(consok):  # send to client
 
         consok.shutdown(socket.SHUT_WR)  # stops the read stream
 
+
         f.close()
 
     except FileNotFoundError as e:
@@ -130,6 +131,8 @@ def tcp_server():
                     connectionSocket.close()
 
                 print("awaiting command...")
+                # cmdIn = connectionSocket.recv(1024).decode('utf-8')
+
                 while True:
                     # connectionSocket, addr = s.accept()
 
@@ -144,13 +147,14 @@ def tcp_server():
                     elif cmdIn == "getF":
                         getSentFile(connectionSocket)
                         print("file received from client")
-                        # connectionSocket, addr = s.accept()  # unsure about this
+                        # connectionSocket, addr = s.accept()  # NEW IDEA -- UNTESTED
                     elif cmdIn == "close":
                         print("connection to " + addr[0] + " closing")
                         connectionSocket.close()
                         break
                     elif cmdIn == "dir":  # does NOT work
                         ls = listFiles()
+                        connectionSocket.send(ls.encode('utf-8'))  # UNTESTED
                         # needs to send ls to client but won't allow it for some reason
                         #####
                     else:
@@ -170,7 +174,7 @@ def tcp_server():
 
                 # can print "waiting for client" if repeated
                 print("waiting for client request")
-                connectionSocket, addr = s.accept()
+                connectionSocket, addr = s.accept()  # TESTING
 
             except socket.error as e:
                 print(str(e))

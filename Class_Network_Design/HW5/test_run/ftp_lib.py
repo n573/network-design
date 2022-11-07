@@ -37,6 +37,11 @@ def socket_connect():
     try:
         s.connect((host, port))
         print("Connected to Server -> IP: " + host + " | Port: " + str(port))
+        usr = input("Username: ")
+        passwd = input("Password: ")
+        login(usr, passwd)  # default credentials are 'user' and 'pass123'
+        # s.connect(socket.SO_PASSCRED)
+
         # send_cmd()  # opens server shell
     except socket.error as msg:
         print(str(msg))
@@ -67,6 +72,9 @@ def send_cmd():  # sends a command to the server (server shell)
 
 
 def cmd_retr():
+    global host
+    global port
+    global s
     try:
         # Create socket and connect to server
         # socket_create()
@@ -106,6 +114,7 @@ def cmd_retr():
 
 
 def cmd_send():  # send file from client -> server
+    global s
     try:
         # Create socket and connect to server
         # socket_create()
@@ -141,7 +150,9 @@ def cmd_send():  # send file from client -> server
 
 
 def login(user, passwd):
-    ...
+    s.send(user.encode('utf-8'))
+    s.send(passwd.encode('utf-8'))
+
 
 
 def ls():
