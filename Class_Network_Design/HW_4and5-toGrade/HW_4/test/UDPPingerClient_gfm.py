@@ -95,7 +95,7 @@ def ping_statistics():
     global toc
     
     print("")
-    print("--- {0} ping statistics ---".format(address[0]))
+    print("--- {0} ping statistics ---".format(host))
     ##!!## CONSOLE THROWS ERROR: ADDRESS IS NEVER DEFINED ##!!##
     #  -- easy fix here would be to just use host rather than address[0]
     pkt_received = ptime - cnt_lost
