@@ -1,0 +1,21 @@
+HW4: 
+     comments were added directly to the .py files
+--put in word file to send -- comment on own code
+
+HW5: 
+
+gfm - 
+        accepted username/passs = gfm / 12345
+        client can't find file (tried to stor and retr a .py file and got error
+        deprication warning in server regarding x.SetDaemon(True)
+
+Student - 
+        after each command the user must hit enter to show the turtle> prompt again
+        loops to login prompt upon quit
+        client breaks if you hit enter too many times with an empty shell (no command)
+
+
+ASAP: 
+	WORD DOC FOR ALL COMMENTS
+	ANALYZE OWN CODE
+	EMAIL TO DR MARTINS ASAP

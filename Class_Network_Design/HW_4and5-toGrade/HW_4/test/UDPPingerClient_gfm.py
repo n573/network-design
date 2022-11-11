@@ -41,8 +41,8 @@ def ping_client():
     while ptime < 10: 
         ptime += 1
         # Format the message to be sent
-        data = "NO RND".encode("utf-8") #Packets don't get lost
-        #data = "RND".encode("utf-8") #Packets can get lost
+        #data = "NO RND".encode("utf-8") #Packets don't get lost
+        data = "RND".encode("utf-8") #Packets can get lost
 
         ## Should include some implementation to
         ##    use both NO RND and RND in the same run execution
